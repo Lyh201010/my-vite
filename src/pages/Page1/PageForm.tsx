@@ -13,10 +13,10 @@ const tailLayout = {
 };
 
 export const PageForm = () => {
-  const{t}=useTranslation()
-  const [form] = Form.useForm()
+  const { t } = useTranslation();
+  const [form] = Form.useForm();
 
-  const onGenderChange=(value: string)=>{
+  const onGenderChange = (value: string) => {
     switch (value) {
       case 'male':
         form.setFieldsValue({ note: 'Hi, man!' });
@@ -62,11 +62,17 @@ export const PageForm = () => {
       </Form.Item>
       <Form.Item
         noStyle
-        shouldUpdate={(prevValues, currentValues) => prevValues.gender !== currentValues.gender}
+        shouldUpdate={(prevValues, currentValues) =>
+          prevValues.gender !== currentValues.gender
+        }
       >
         {({ getFieldValue }) =>
           getFieldValue('gender') === 'other' ? (
-            <Form.Item name="customizeGender" label="Customize Gender" rules={[{ required: true }]}>
+            <Form.Item
+              name="customizeGender"
+              label="Customize Gender"
+              rules={[{ required: true }]}
+            >
               <Input />
             </Form.Item>
           ) : null
@@ -74,7 +80,7 @@ export const PageForm = () => {
       </Form.Item>
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit">
-          {t("--")}
+          {t('--')}
         </Button>
         <Button htmlType="button" onClick={onReset}>
           Reset
