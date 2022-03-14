@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.less';
-import '@/App.less';
+import './App.less';
 import { Layout, Menu } from 'antd';
 import {
   MenuUnfoldOutlined,
@@ -8,28 +8,29 @@ import {
   PieChartOutlined,
   DesktopOutlined,
   ContainerOutlined,
-  AppstoreOutlined
+  AppstoreOutlined,
 } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import { Routes } from './routes';
 
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
-const App= ()=> {
+const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
 
-  useEffect(()=> {
-    console.log(location)
-  })
+  useEffect(() => {
+    console.log(location);
+  });
 
   const toggle = () => {
     setCollapsed(!collapsed);
   };
-  
-  const changeRoute = (pathName: string)=> {
+
+  const changeRoute = (pathName: string) => {
     navigate(pathName);
   };
 
@@ -45,15 +46,19 @@ const App= ()=> {
           inlineCollapsed={collapsed}
         >
           <Menu.Item key="1" icon={<PieChartOutlined />}>
-            <a onClick={()=>changeRoute('/')}>Home</a>
+            <a onClick={() => changeRoute('/')}>Home</a>
           </Menu.Item>
           <Menu.Item key="2" icon={<DesktopOutlined />}>
-            <a onClick={()=>changeRoute('/page2')}>Page 2</a>
+            <a onClick={() => changeRoute('/page2')}>Page 2</a>
           </Menu.Item>
           <Menu.Item key="3" icon={<ContainerOutlined />}>
-            <a onClick={()=>changeRoute('/page3')}>Page 3</a>
+            <a onClick={() => changeRoute('/page3')}>Page 3</a>
           </Menu.Item>
-          <SubMenu key="sub1" icon={<AppstoreOutlined />} title="Navigation Two">
+          <SubMenu
+            key="sub1"
+            icon={<AppstoreOutlined />}
+            title="Navigation Two"
+          >
             <Menu.Item key="4">Option 9</Menu.Item>
             <Menu.Item key="5">Option 10</Menu.Item>
             <SubMenu key="sub12" title="Submenu">
@@ -65,10 +70,13 @@ const App= ()=> {
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
-          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: toggle,
-          })}
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: 'trigger',
+              onClick: toggle,
+            }
+          )}
         </Header>
         <Content
           className="site-layout-background"
@@ -82,7 +90,7 @@ const App= ()=> {
         </Content>
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
-export default App
+export default App;

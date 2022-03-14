@@ -1,12 +1,14 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Table, Tag, Space } from 'antd';
+
+import { get } from '../../utils/request';
 
 interface DataType {
   key: React.Key;
   name: string;
   age: number;
   address: string;
-};
+}
 
 const columns = [
   {
@@ -57,35 +59,25 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
-
-export const Page2:FC = () => {
+export const Page2: FC = () => {
   // rowSelection object indicates the need for row selection
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    get('api', {})
+      .then((response: any) => {
+        setData(response?.data);
+      })
+      .catch((error: unknown) => console.log(error));
+  }, []);
+
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      console.log(
+        `selectedRowKeys: ${selectedRowKeys}`,
+        'selectedRows: ',
+        selectedRows
+      );
     },
     getCheckboxProps: (record: DataType) => ({
       disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -98,7 +90,8 @@ export const Page2:FC = () => {
         type: 'checkbox',
         ...rowSelection,
       }}
-      columns={columns} 
-      dataSource={data} />
-  )
-}
+      columns={columns}
+      dataSource={data}
+    />
+  );
+};

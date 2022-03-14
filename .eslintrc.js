@@ -33,6 +33,10 @@ module.exports = {
       rules: {
         'linebreak-style': ['error', 'unix'],
         'import/prefer-default-export': 'off',
+        'import/no-extraneous-dependencies': [
+          'error',
+          { devDependencies: true },
+        ],
         'import/order': [
           'warn',
           {
