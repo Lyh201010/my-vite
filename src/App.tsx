@@ -10,7 +10,7 @@ import {
   ContainerOutlined,
   AppstoreOutlined,
 } from '@ant-design/icons';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Routes } from './routes';
 
@@ -19,12 +19,36 @@ const { SubMenu } = Menu;
 
 const App = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
 
+  function checkIsMobile() {
+    const clientWidth = window.innerWidth;
+    return clientWidth <= 992;
+  }
+
+  const handleResize = (isMobile: boolean) => {
+    setCollapsed(isMobile);
+  };
+
+  function resizeListener() {
+    let timer: NodeJS.Timeout | null = null;
+    const delay = 100;
+    // 有新的触发
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      handleResize(checkIsMobile());
+    }, delay);
+  }
+
   useEffect(() => {
-    console.log(location);
-  });
+    resizeListener();
+    window.addEventListener('resize', resizeListener);
+    return () => {
+      window.removeEventListener('resize', resizeListener);
+    };
+  }, []);
 
   const toggle = () => {
     setCollapsed(!collapsed);

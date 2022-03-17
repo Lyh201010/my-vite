@@ -85,13 +85,15 @@ export const Page2: FC = () => {
     }),
   };
   return (
-    <Table
-      rowSelection={{
-        type: 'checkbox',
-        ...rowSelection,
-      }}
-      columns={columns}
-      dataSource={data}
-    />
+    <div>
+      <Table
+        rowSelection={{
+          type: 'checkbox',
+          ...rowSelection,
+        }}
+        columns={columns}
+        dataSource={data}
+      />
+    </div>
   );
 };
