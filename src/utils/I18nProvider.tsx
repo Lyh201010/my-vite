@@ -1,5 +1,5 @@
-import React, { FC, useMemo } from "react";
-import i18next from "i18next";
+import React, { FC, useMemo } from 'react';
+import i18next from 'i18next';
 import languageDetector from 'i18next-browser-languagedetector';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 
@@ -8,8 +8,8 @@ import IN from '../i18n/in-ID.json';
 import JP from '../i18n/ja-JP.json';
 import CN from '../i18n/zh-CN.json';
 
-export const I18nProvider: FC = ({ children })=> {
-  const i18n = useMemo(()=> {
+export const I18nProvider: FC = ({ children }) => {
+  const i18n = useMemo(() => {
     // 创建实例
     const instance = i18next.createInstance();
 
@@ -18,7 +18,7 @@ export const I18nProvider: FC = ({ children })=> {
       .use(initReactI18next)
       .init({
         debug: process.env.NODE_ENV === 'development',
-        fallbackLng: 'en-US',
+        fallbackLng: 'zh-CN',
         ns: ['myVite'],
         defaultNS: 'myVite',
         load: 'currentOnly',
@@ -43,10 +43,10 @@ export const I18nProvider: FC = ({ children })=> {
             myVite: CN,
           },
         },
-      })
+      });
 
     return instance;
-  }, [])
+  }, []);
 
-  return <I18nextProvider i18n={i18n}> { children } </I18nextProvider>
-}; 
+  return <I18nextProvider i18n={i18n}> {children} </I18nextProvider>;
+};

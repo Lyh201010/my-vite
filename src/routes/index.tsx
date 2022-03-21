@@ -1,17 +1,30 @@
-import React from 'react';
-import { Navigate, useRoutes } from "react-router-dom";
+import React, { Suspense } from 'react';
+import { useRoutes } from 'react-router-dom';
 
-import Page1 from '../pages/Page1';
-import Page2 from '../pages/Page2';
-import Page3 from '../pages/Page3';
-import NotFound from '../pages/NotFound';
+import routesConfig, { IFMenu } from './config';
+
+// 路由处理方式
+const routersHandler = (routesConfig: IFMenu[]): IFMenu[] => {
+  const routers: IFMenu[] = routesConfig.map((item) => {
+    if (item.children) {
+      item.children = routersHandler(item.children);
+    }
+    if (item.element) {
+      item.element = (
+        <Suspense fallback={<div>加载中...</div>}>{item.element}</Suspense>
+      );
+    }
+
+    return item;
+  });
+  return routers;
+};
+
+const generateRouters = (routesConfig: IFMenu[]): IFMenu[] => {
+  const routers = routersHandler(routesConfig);
+  return routers;
+};
 
 export const Routes = () => {
-  return useRoutes([
-    { path: "/", element: <Page1 /> },
-    { path: "/page2", element: <Page2 /> },
-    { path: "/page3", element: <Page3 /> },
-    { path: "/not-found", element: <NotFound /> },
-    { path: "*", element: <Navigate to='/not-found'/> }
-  ]);
-}
+  return useRoutes(generateRouters(routesConfig));
+};

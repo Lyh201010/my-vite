@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.less';
+import { Layout } from 'antd';
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+
 import './App.less';
-import { Layout, Menu } from 'antd';
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  ContainerOutlined,
-  AppstoreOutlined,
-} from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { usePrevious } from 'ahooks';
 
 import { Routes } from './routes';
+import Menus from './routes/Menus';
 
 const { Header, Sider, Content } = Layout;
-const { SubMenu } = Menu;
+interface IMenu {
+  openKeys: string[];
+  selectedKey: string;
+}
 
 const App = () => {
-  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+  const [menu, setMenu] = useState<IMenu>({ openKeys: [''], selectedKey: '' });
+  const prePathname = usePrevious(location.pathname);
 
   function checkIsMobile() {
     const clientWidth = window.innerWidth;
@@ -43,6 +42,46 @@ const App = () => {
   }
 
   useEffect(() => {
+    const recombineOpenKeys = (openKeys: string[]) => {
+      let i = 0;
+      let strPlus = '';
+      const tempKeys: string[] = [];
+
+      // 多级菜单循环处理
+      while (i < openKeys.length) {
+        strPlus += openKeys[i];
+        tempKeys.push(strPlus);
+        i++;
+      }
+      return tempKeys;
+    };
+    const getOpenAndSelectKeys = () => {
+      return {
+        openKeys: recombineOpenKeys(
+          location.pathname.match(/[/](\w+)/gi) || []
+        ),
+        selectedKey: location.pathname,
+      };
+    };
+
+    if (prePathname !== location.pathname) {
+      setMenu(getOpenAndSelectKeys());
+    }
+  }, [prePathname, location.pathname, collapsed]);
+
+  const menuClick = (e: any) => {
+    setMenu((state) => ({ ...state, selectedKey: e.key }));
+  };
+
+  const openMenu = (keys: string[]): void => {
+    const latestOpenKey = keys.find((key) => menu.openKeys.indexOf(key) === -1);
+    setMenu((state) => ({
+      ...state,
+      openKeys: latestOpenKey ? [latestOpenKey] : [],
+    }));
+  };
+
+  useEffect(() => {
     resizeListener();
     window.addEventListener('resize', resizeListener);
     return () => {
@@ -54,43 +93,17 @@ const App = () => {
     setCollapsed(!collapsed);
   };
 
-  const changeRoute = (pathName: string) => {
-    navigate(pathName);
-  };
-
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
-        <Menu
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
+        <Menus
+          onClick={menuClick}
           mode="inline"
-          theme="dark"
-          inlineCollapsed={collapsed}
-        >
-          <Menu.Item key="1" icon={<PieChartOutlined />}>
-            <a onClick={() => changeRoute('/')}>Home</a>
-          </Menu.Item>
-          <Menu.Item key="2" icon={<DesktopOutlined />}>
-            <a onClick={() => changeRoute('/page2')}>Page 2</a>
-          </Menu.Item>
-          <Menu.Item key="3" icon={<ContainerOutlined />}>
-            <a onClick={() => changeRoute('/page3')}>Page 3</a>
-          </Menu.Item>
-          <SubMenu
-            key="sub1"
-            icon={<AppstoreOutlined />}
-            title="Navigation Two"
-          >
-            <Menu.Item key="4">Option 9</Menu.Item>
-            <Menu.Item key="5">Option 10</Menu.Item>
-            <SubMenu key="sub12" title="Submenu">
-              <Menu.Item key="6">Option 11</Menu.Item>
-              <Menu.Item key="7">Option 12</Menu.Item>
-            </SubMenu>
-          </SubMenu>
-        </Menu>
+          selectedKeys={[menu.selectedKey]}
+          openKeys={menu.openKeys}
+          onOpenChange={openMenu}
+        />
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>

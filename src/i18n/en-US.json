@@ -1,3 +1,16 @@
 {
-    "--": "**"
+  "--": "--",
+  "首页": "Homepage",
+  "我的资产": "My Asset",
+  "资产转移": "Asset Transfer",
+  "资产登记": "Asset Registration",
+  "资产管理": "Asset Management",
+  "盘点管理": "Inventory management",
+  "资产报表": "Asset Report",
+  "成员管理": "Member Management",
+  "部门管理": "Department Management",
+  "资产类别": "Asset types",
+  "日常管理": "Daily Management",
+  "盘点": "Inventory",
+  "系统设置": "System Settings"
 }
