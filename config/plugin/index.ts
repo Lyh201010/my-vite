@@ -10,7 +10,7 @@ import viteCompression from 'vite-plugin-compression';
 import {
   VITE_APP_COMPRESS_GZIP,
   VITE_APP_COMPRESS_GZIP_DELETE_FILE,
-  VITE_APP_LEGACY
+  VITE_APP_LEGACY,
 } from '../constant';
 
 export function createVitePlugins(viteEnv: string, isBuild: boolean) {
@@ -30,7 +30,9 @@ export function createVitePlugins(viteEnv: string, isBuild: boolean) {
     // rollup-plugin-gzip
     VITE_APP_COMPRESS_GZIP &&
       vitePlugins.push(
-        viteCompression({ deleteOriginFile: VITE_APP_COMPRESS_GZIP_DELETE_FILE }),
+        viteCompression({
+          deleteOriginFile: VITE_APP_COMPRESS_GZIP_DELETE_FILE,
+        })
       );
   }
 

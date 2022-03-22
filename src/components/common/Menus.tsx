@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import * as Icons from '@ant-design/icons';
 
-import routesConfig, { IFMenu } from './config';
+import routesConfig, { IFMenu } from '../../routes/config';
 
 type SiderMenuProps = MenuProps & {
   onClick: (e: any) => void;

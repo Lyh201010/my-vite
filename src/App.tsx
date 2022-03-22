@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.less';
-import { Layout } from 'antd';
+import { Layout, Space } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 
 import './App.less';
 import { usePrevious } from 'ahooks';
 
 import { Routes } from './routes';
-import Menus from './routes/Menus';
+import Menus from './components/common/Menus';
 
 const { Header, Sider, Content } = Layout;
 interface IMenu {
@@ -106,20 +106,24 @@ const App = () => {
         />
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }}>
-          {React.createElement(
-            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-            {
-              className: 'trigger',
-              onClick: toggle,
-            }
-          )}
+        <Header
+          className="site-layout-sub-header-background"
+          style={{ padding: 0 }}
+        >
+          <Space>
+            {React.createElement(
+              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+              {
+                className: 'trigger',
+                onClick: toggle,
+              }
+            )}
+          </Space>
         </Header>
         <Content
           className="site-layout-background"
           style={{
-            margin: '24px 16px',
-            padding: 24,
+            margin: '16px',
             minHeight: 280,
           }}
         >

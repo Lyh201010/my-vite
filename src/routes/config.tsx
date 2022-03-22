@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Dashboard from '../pages/Dashboard';
 import Page1 from '../pages/Page1';
 import Page2 from '../pages/Page2';
 import Page3 from '../pages/Page3';
@@ -18,7 +19,7 @@ export interface IFMenu extends IFMenuBase {
 
 const routesConfig: IFMenu[] = [
   // 菜单相关路由
-  { path: '/', title: '首页', icon: 'HomeOutlined', element: <Page1 /> },
+  { path: '/', title: '首页', icon: 'HomeOutlined', element: <Dashboard /> },
   {
     path: '/asset/management',
     title: '日常管理',
@@ -26,7 +27,7 @@ const routesConfig: IFMenu[] = [
     children: [
       {
         path: '/asset/management/myself',
-        title: '我的资产',
+        title: '资产清单',
         element: <Page2 />,
       },
       {

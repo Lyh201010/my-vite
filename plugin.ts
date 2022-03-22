@@ -1,7 +1,3 @@
-/**
- * vite plugin
- */
-
 import legacy from '@vitejs/plugin-legacy';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import type { Plugin } from 'vite';
@@ -33,7 +29,9 @@ export function createVitePlugins(viteEnv: string, isBuild: boolean) {
     // rollup-plugin-gzip
     VITE_APP_COMPRESS_GZIP &&
       vitePlugins.push(
-        viteCompression({ deleteOriginFile: VITE_APP_COMPRESS_GZIP_DELETE_FILE }),
+        viteCompression({
+          deleteOriginFile: VITE_APP_COMPRESS_GZIP_DELETE_FILE,
+        })
       );
   }
 
