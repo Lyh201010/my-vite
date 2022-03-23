@@ -12,5 +12,15 @@
   "资产类别": "Asset types",
   "日常管理": "Daily Management",
   "盘点": "Inventory",
-  "系统设置": "System Settings"
+  "系统设置": "System Settings",
+  "资产清单": "Asset List",
+  "资产": "Asset",
+  "资产编号": "Asset ID",
+  "数量": "Amount",
+  "领取日期": "Collection Date",
+  "资产状态": "Asset Status",
+  "确认通知": "Confirmation Notice",
+  "您没有待签收的资产，确认要跳转到待签收页面？": "You do not have any assets to be signed, are you sure you want to jump to the page to be signed?",
+  "确认": "Confirm",
+  "取消": "Cancel"
 }

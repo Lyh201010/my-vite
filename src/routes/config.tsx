@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Dashboard from '../pages/Dashboard';
+import PendingReceip from '../pages/PendingReceip';
 import Page1 from '../pages/Page1';
 import Page2 from '../pages/Page2';
 import Page3 from '../pages/Page3';
@@ -8,9 +9,10 @@ import NotFound from '../pages/NotFound';
 
 export interface IFMenuBase {
   path: string;
-  title: string;
+  title?: string;
   icon?: string;
   element?: any;
+  isMenu?: boolean;
 }
 
 export interface IFMenu extends IFMenuBase {
@@ -19,11 +21,18 @@ export interface IFMenu extends IFMenuBase {
 
 const routesConfig: IFMenu[] = [
   // 菜单相关路由
-  { path: '/', title: '首页', icon: 'HomeOutlined', element: <Dashboard /> },
+  {
+    path: '/',
+    title: '首页',
+    icon: 'HomeOutlined',
+    element: <Dashboard />,
+    isMenu: true,
+  },
   {
     path: '/asset/management',
     title: '日常管理',
     icon: 'CalendarOutlined',
+    isMenu: true,
     children: [
       {
         path: '/asset/management/myself',
@@ -51,6 +60,7 @@ const routesConfig: IFMenu[] = [
     path: '/asset/inventory',
     title: '盘点',
     icon: 'BookOutlined',
+    isMenu: true,
     children: [
       {
         path: '/asset/inventory/management',
@@ -68,6 +78,7 @@ const routesConfig: IFMenu[] = [
     path: '/asset/setting',
     title: '系统设置',
     icon: 'SettingOutlined',
+    isMenu: true,
     children: [
       { path: '/asset/setting/people', title: '成员管理', element: <Page2 /> },
       {
@@ -82,7 +93,8 @@ const routesConfig: IFMenu[] = [
       },
     ],
   },
-  { path: '*', title: '', element: <NotFound /> },
+  { path: '/pendingreceipt', element: <PendingReceip />, isMenu: false },
+  { path: '*', element: <NotFound />, isMenu: false },
 ];
 
 export default routesConfig;

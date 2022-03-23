@@ -2,8 +2,8 @@ import React from 'react';
 import { Card, Col, Row, Tabs } from 'antd';
 
 import { RightCards } from './RightCards';
-import { MyAsset } from '../../components/Dashboard/MyAsset';
-import { MyApply } from '../../components/Dashboard/MyApply';
+import { MyAssetTable } from '../../components/Asset/MyAssetTable';
+import { MyApplyTable } from '../../components/Apply/MyApplyTable';
 import './style.less';
 
 export const Dashboard = () => {
@@ -14,10 +14,10 @@ export const Dashboard = () => {
           <Card>
             <Tabs defaultActiveKey="1">
               <Tabs.TabPane tab="我的资产" key="1">
-                <MyAsset />
+                <MyAssetTable />
               </Tabs.TabPane>
               <Tabs.TabPane tab="我的申请" key="2">
-                <MyApply />
+                <MyApplyTable />
               </Tabs.TabPane>
             </Tabs>
           </Card>

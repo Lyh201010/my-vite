@@ -1,7 +1,35 @@
-import React from 'react';
-import { Card } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Badge, Card, Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export const RightCards = () => {
+  const { t } = useTranslation();
+  const [pendingReceipt, setPendingReceipt] = useState(0);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const random = Math.floor(Math.random() * 10);
+    console.log(random);
+    setPendingReceipt(random % 2 === 0 ? random : 0);
+  }, []);
+
+  const jumpPendingReceipt = () => {
+    if (!pendingReceipt) {
+      Modal.confirm({
+        title: t('确认通知'),
+        icon: <ExclamationCircleOutlined />,
+        content: t('您没有待签收的资产，确认要跳转到待签收页面？'),
+        okText: t('确认'),
+        cancelText: t('取消'),
+        onOk: () => navigate('/pendingreceipt'),
+      });
+    } else {
+      navigate('/pendingreceipt');
+    }
+  };
+
   return (
     <>
       <Card
@@ -21,10 +49,15 @@ export const RightCards = () => {
           退还中<span>2</span>
         </div>
       </Card>
-      <Card title="待签收资产" extra={<a>{'查看待签收资产 >'}</a>}>
+      <Card
+        title="待签收资产"
+        extra={<a onClick={() => jumpPendingReceipt()}>{'查看待签收资产 >'}</a>}
+      >
         <div className="right-second-card">
-          <div>待签收</div>
-          <div>{1}</div>
+          <Badge offset={[6, 0]} dot={pendingReceipt !== 0}>
+            待签收资产
+          </Badge>
+          <div>{pendingReceipt}</div>
         </div>
       </Card>
     </>

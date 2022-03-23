@@ -10,7 +10,7 @@ interface PaginationProp {
   total: number;
 }
 
-export const MyApply = () => {
+export const MyApplyTable = () => {
   const { t } = useTranslation();
 
   const [pagination, setPagination] = useState({
@@ -24,8 +24,8 @@ export const MyApply = () => {
   const columns = [
     {
       title: t('资产'),
-      dataIndex: 'asset',
-      key: 'asset',
+      dataIndex: 'asset_name',
+      key: 'asset_name',
       render: (text: any) => <a>{text}</a>,
     },
     {
@@ -86,7 +86,7 @@ export const MyApply = () => {
   ];
 
   const fetch = (page: PaginationProp) => {
-    get('api', {})
+    get('api/myApply', {})
       .then((response: any) => {
         setLoading(false);
         setPagination((prevPagination) => ({

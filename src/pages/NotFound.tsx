@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const NotFound = () => {
   const navigate = useNavigate();
-  const [second, setSecond] = useState(5);
+  const [second, setSecond] = useState(3);
 
   useEffect(() => {
     const handler = setInterval(() => {

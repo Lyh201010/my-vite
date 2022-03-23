@@ -1,35 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import 'antd/dist/antd.less';
-import { Layout, Space } from 'antd';
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { Layout } from 'antd';
 
 import './App.less';
-import { usePrevious } from 'ahooks';
-
 import { Routes } from './routes';
-import Menus from './components/common/Menus';
+import Menus from './components/common/CMenus';
+import { CHeader } from './components/common/CHeader';
 
-const { Header, Sider, Content } = Layout;
-interface IMenu {
-  openKeys: string[];
-  selectedKey: string;
-}
+const { Sider, Content } = Layout;
 
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [menu, setMenu] = useState<IMenu>({ openKeys: [''], selectedKey: '' });
-  const prePathname = usePrevious(location.pathname);
 
-  function checkIsMobile() {
+  const checkIsMobile = useCallback((): boolean => {
     const clientWidth = window.innerWidth;
     return clientWidth <= 992;
-  }
+  }, []);
 
-  const handleResize = (isMobile: boolean) => {
-    setCollapsed(isMobile);
-  };
-
-  function resizeListener() {
+  const resizeListener = useCallback(() => {
     let timer: NodeJS.Timeout | null = null;
     const delay = 100;
     // 有新的触发
@@ -37,49 +25,9 @@ const App = () => {
       clearTimeout(timer);
     }
     timer = setTimeout(() => {
-      handleResize(checkIsMobile());
+      setCollapsed(checkIsMobile());
     }, delay);
-  }
-
-  useEffect(() => {
-    const recombineOpenKeys = (openKeys: string[]) => {
-      let i = 0;
-      let strPlus = '';
-      const tempKeys: string[] = [];
-
-      // 多级菜单循环处理
-      while (i < openKeys.length) {
-        strPlus += openKeys[i];
-        tempKeys.push(strPlus);
-        i++;
-      }
-      return tempKeys;
-    };
-    const getOpenAndSelectKeys = () => {
-      return {
-        openKeys: recombineOpenKeys(
-          location.pathname.match(/[/](\w+)/gi) || []
-        ),
-        selectedKey: location.pathname,
-      };
-    };
-
-    if (prePathname !== location.pathname) {
-      setMenu(getOpenAndSelectKeys());
-    }
-  }, [prePathname, location.pathname, collapsed]);
-
-  const menuClick = (e: any) => {
-    setMenu((state) => ({ ...state, selectedKey: e.key }));
-  };
-
-  const openMenu = (keys: string[]): void => {
-    const latestOpenKey = keys.find((key) => menu.openKeys.indexOf(key) === -1);
-    setMenu((state) => ({
-      ...state,
-      openKeys: latestOpenKey ? [latestOpenKey] : [],
-    }));
-  };
+  }, [checkIsMobile]);
 
   useEffect(() => {
     resizeListener();
@@ -87,7 +35,7 @@ const App = () => {
     return () => {
       window.removeEventListener('resize', resizeListener);
     };
-  }, []);
+  }, [resizeListener]);
 
   const toggle = () => {
     setCollapsed(!collapsed);
@@ -97,29 +45,10 @@ const App = () => {
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
-        <Menus
-          onClick={menuClick}
-          mode="inline"
-          selectedKeys={[menu.selectedKey]}
-          openKeys={menu.openKeys}
-          onOpenChange={openMenu}
-        />
+        <Menus />
       </Sider>
       <Layout className="site-layout">
-        <Header
-          className="site-layout-sub-header-background"
-          style={{ padding: 0 }}
-        >
-          <Space>
-            {React.createElement(
-              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: 'trigger',
-                onClick: toggle,
-              }
-            )}
-          </Space>
-        </Header>
+        <CHeader collapsed={collapsed} toggle={toggle} />
         <Content
           className="site-layout-background"
           style={{

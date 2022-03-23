@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from 'react';
 import i18next from 'i18next';
-import languageDetector from 'i18next-browser-languagedetector';
+// import languageDetector from 'i18next-browser-languagedetector';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 
 import EN from '../i18n/en-US.json';
@@ -14,7 +14,7 @@ export const I18nProvider: FC = ({ children }) => {
     const instance = i18next.createInstance();
 
     instance
-      .use(languageDetector)
+      // .use(languageDetector)
       .use(initReactI18next)
       .init({
         debug: process.env.NODE_ENV === 'development',
